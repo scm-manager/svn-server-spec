@@ -21,14 +21,12 @@ function setup {
 
 function create_tag {
   echo "creating tag ${1}"
-  svn copy --username "${SVN_USER}" --password "${SVN_PASSWORD}" \
-    "${SVN_URL}/trunk" "${SVN_URL}/tags/${1}" -m "create tag ${1}"
+  svn copy "${SVN_URL}/trunk" "${SVN_URL}/tags/${1}" -m "create tag ${1}"
 }
 
 function create_branch {
   echo "creating branch ${1}"
-  svn copy --username "${SVN_USER}" --password "${SVN_PASSWORD}" \
-    "${SVN_URL}/trunk" "${SVN_URL}/branches/${1}" -m "create branch ${1}"
+  svn copy "${SVN_URL}/trunk" "${SVN_URL}/branches/${1}" -m "create branch ${1}"
 }
 
 function checkout {
@@ -36,11 +34,11 @@ function checkout {
   if [ "x${CHECKOUTDIR}" = "x" ]; then
     CHECKOUTDIR="${WORKDIR}"
   fi
-  svn co --username "${SVN_USER}" --password "${SVN_PASSWORD}" "${SVN_URL}" "${CHECKOUTDIR}"
+  svn co "${SVN_URL}" "${CHECKOUTDIR}"
 }
 
 function update {
-  svn update --username "${SVN_USER}" --password "${SVN_PASSWORD}" "${WORKDIR}"
+  svn update "${WORKDIR}"
 }
 
 function tests_with_filename {
