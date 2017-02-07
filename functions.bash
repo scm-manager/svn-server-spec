@@ -1,15 +1,27 @@
 #!/bin/bash
 
+function create {
+  if [ "${SPEC_TYPE}" = "scm" ]; then
+    REPOSITORY_ID=$(${SCM_CLI_CLIENT} get-repository --template='${repository.id}' "svn/${REPOSITORY_NAME}" || echo "")
+    if [[ "${REPOSITORY_ID}" != "" && "${REPOSITORY_ID}" != "The repository is not available" ]]; then
+      ${SCM_CLI_CLIENT} delete-repository "${REPOSITORY_ID}"
+    fi
+
+    ${SCM_CLI_CLIENT} create-repository -t svn -n "${REPOSITORY_NAME}"
+  else
+    if [ -d "${REPOSITORY_PATH}" ]; then
+      rm -rf "${REPOSITORY_PATH}"
+    fi
+    sh ${JSVNADMIN} create "${REPOSITORY_PATH}"
+  fi 
+}
+
 function setup {
   if [ -d "${WORKDIR}" ]; then
     rm -rf "${WORKDIR}"
   fi
 
-  if [ -d "${REPOSITORY_PATH}" ]; then
-    rm -rf "${REPOSITORY_PATH}"
-  fi
-
-  sh $JSVNADMIN create "${REPOSITORY_PATH}"
+  create
   checkout
 
   cd "${WORKDIR}"
