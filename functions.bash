@@ -83,7 +83,7 @@ function add_large_files {
   for x in $(seq 1 "${LARGEFILES_END}")
   do
     echo "adding large-file-${x}"
-    dd if=/dev/random of="large-file-${x}.bin" bs="${x}M" count=1
+    dd if=/dev/random of="large-file-${x}.bin" bs="$(expr ${x} \* 1024)" count=1
     svn add "large-file-${x}.bin"
     svn commit -m "added large-file-${x}"
   done

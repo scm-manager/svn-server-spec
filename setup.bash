@@ -1,12 +1,16 @@
 #!/bin/bash -e
 
+function absolutepath() {
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
 BASEDIR=$(pwd)
 
 if [[ "${SPEC_TYPE}" = "svnkit-mq" || "${SPEC_TYPE}" = "" ]]; then
     SPEC_TYPE="svnkit-mq"
 
     if [ "${SVNKITMQ}" = "" ]; then
-        SVNKITMQ=$(realpath ~/Projects/bitbucket/svnkit-mq)
+        SVNKITMQ=$(absolutepath ~/Projects/scm-manager/svnkit-mq)
     fi
 
     if [ ! -d "${SVNKITMQ}" ]; then
@@ -18,7 +22,7 @@ if [[ "${SPEC_TYPE}" = "svnkit-mq" || "${SPEC_TYPE}" = "" ]]; then
         exit 1
     fi
 
-    JSVNADMIN="$(realpath ${SVNKITMQ}/svnkit-distribution/build/all/svnkit-*/bin/jsvnadmin || echo "")"
+    JSVNADMIN="$(absolutepath ${SVNKITMQ}/svnkit-distribution/build/all/svnkit-*/bin/jsvnadmin || echo "")"
     if [ "${JSVNADMIN}" = "" ]; then
         echo "ERROR: could not find jsvnadmin"
         echo "be sure you have build the whole distribution (./gradlew build -xtest -xjavadoc)"
