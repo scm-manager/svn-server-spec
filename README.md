@@ -1,6 +1,7 @@
 # Tests for SVNKit patched for SCM-Manager
 
-## Preparations to ru SVNKit
+
+## Preparations to run SVNKit
 
 Create a file `~/.gradle/gradle.properties` with this content:
 
@@ -13,6 +14,12 @@ Build the patched SVNKit version:
 
 ```
 ./gradlew build -xtest -xjavadoc
+```
+
+Start the SVNKit dav server:
+
+```
+./gradlew svnkit-dav:serveDav
 ```
 
 ## Run tests in this repo
