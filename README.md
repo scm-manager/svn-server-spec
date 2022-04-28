@@ -6,14 +6,14 @@
 Create a file `~/.gradle/gradle.properties` with this content:
 
 ```
-scmMavenRepoUsername=
-scmMavenRepoPassword=
+packagesScmManagerUsername=
+packagesScmManagerPassword==
 ```
 
 Build the patched SVNKit version:
 
 ```
-./gradlew build -xtest -xjavadoc
+./gradlew clean build -xtest -xjavadoc
 ```
 
 Start the SVNKit dav server:
